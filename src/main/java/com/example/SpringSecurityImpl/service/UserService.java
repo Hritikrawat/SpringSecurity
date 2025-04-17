@@ -22,7 +22,6 @@ public class UserService
 
     private final MainRepo mainRepo;
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
-
     public UserService(MainRepo mainRepo) {
         this.mainRepo = mainRepo;
     }
@@ -36,16 +35,16 @@ public class UserService
         return false;
     }
 
-    public boolean verify(Janta j)
+    public String verify(Janta j)
     {
         Authentication authentication =
                 auth.authenticate(new UsernamePasswordAuthenticationToken(j.getJname(),j.getJpass()));
         if(authentication.isAuthenticated()){
-            jwtService.generateToken();
-            return true;
+            return jwtService.generateToken(j.getJname());
+
         }
 
-        return false;
+        return "Not authenticated";
 
     }
 }
