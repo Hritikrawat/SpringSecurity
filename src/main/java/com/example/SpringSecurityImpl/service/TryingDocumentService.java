@@ -2,6 +2,7 @@ package com.example.SpringSecurityImpl.service;
 
 import com.example.SpringSecurityImpl.entity.Janta;
 import com.example.SpringSecurityImpl.repo.MainRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,17 @@ public class TryingDocumentService {
     public Document save(Janta ja)
     {
 
-//        ObjectMapper objectMapper = new ObjectMapper();
+//      ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> map =  objectMapper.convertValue(ja,Map.class);
+        try {
+            String j = objectMapper.writeValueAsString(ja);
+            System.out.println(j);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
 
-//        Document d = new Document();
-//        map.append("From","Document");
+//      Document d = new Document();
+//      map.append("From","Document");
 
         map.put("From","DocumentSaving");
 
